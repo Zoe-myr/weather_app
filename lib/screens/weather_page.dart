@@ -1,12 +1,45 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-class WeatherPage extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:weather_1/models/weather_model.dart';
+
+class WeatherPage extends StatefulWidget {
+  WeatherPage({required this.weatherModel});
+  final WeatherModel weatherModel;
   @override
+  State<WeatherPage> createState() => _WeatherPageState();
+}
+
+class _WeatherPageState extends State<WeatherPage> {
+
+  late String cityNameState;
+  late String conditionsState;
+  late int temperatureState;
+  late int feelsLikeState;
+  late int humidityState;
+  late int windSpeedState;
+  late int windGustState;
+
+  @override
+  void initState(){
+    super.initState();
+    setState(() {
+      cityNameState = widget.weatherModel.getCityName();
+      conditionsState = widget.weatherModel.getConditions();
+      temperatureState = widget.weatherModel.getTemperature();
+      feelsLikeState = widget.weatherModel.getTemperatureFeelsLike();
+      humidityState = widget.weatherModel.getHumidity();
+      windSpeedState = widget.weatherModel.getWindSpeed();
+      windGustState = widget.weatherModel.getWindGust();
+
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Sa St's Weather App",
+          "Zo pa's Weather App",
           style: TextStyle(fontSize: 15.0),
         ),
       ),
@@ -32,12 +65,12 @@ class WeatherPage extends StatelessWidget {
               color: Colors.blueGrey,
               child: ListTile(
                 title: Text(
-                  '\nTemperature: 88° F'
-                  '\nFeels like: 99° F'
-                  '\nCloudy'
-                  '\nHumidity: 65%'
-                  '\nWind speed: 1.5 mph'
-                  '\nWind gust: 10 mph',
+                  '\nTemperature: $temperatureState° F'
+                  '\nFeels like: $feelsLikeState° F'
+                  '\n$conditionsState'
+                  '\nHumidity: $humidityState%'
+                  '\nWind speed: $windSpeedState mph'
+                  '\nWind gust: $windGustState mph',
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'Source Sans Pro',
@@ -54,7 +87,7 @@ class WeatherPage extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              print('Go Back To Home Page');
+              Navigator.pop(context);
             },
             child: Text(
               'Go Back To Home Page',

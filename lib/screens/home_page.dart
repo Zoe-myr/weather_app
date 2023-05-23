@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:weather_1/screens/weather_page.dart';
+import '../models/weather_model.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     String cardText = "Weather and people, they both change often!";
@@ -10,7 +17,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Sa St's Weather App",
+          "Zo Pa's Weather App",
           style: TextStyle(fontSize: 15.0),
         ),
       ),
@@ -96,7 +103,18 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               onPressed: () async {
-                print('Get Current Weather');
+                WeatherModel weatherModel = WeatherModel(cityName: "Lincoln", temperature: 50, temperatureFeelsLike: 40, humidity: 60, conditions: 'sunny', windSpeed: 10, windGust: 20);
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context){
+                        return WeatherPage(
+                          weatherModel: weatherModel,
+                        );
+                      },
+                  ),
+                );
               },
               child: Text(
                 'Get Current Weather',
@@ -126,5 +144,4 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
-  } //build
-}
+  } }
